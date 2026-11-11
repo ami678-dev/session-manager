@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Session manager",
+    "description": "Alerts for approvals, questions, completions and errors, plus safe deletion and batch cleanup of archived sessions (including their subagent sessions) with an optional move to the Recycle Bin. A one-click leftover scanner finds orphan session directories, tombstones and empty directories, opens their location, and moves them to the Recycle Bin. Sessions held by the running process are deleted automatically after a restart. Generated files, attachments and scheduled tasks are kept."
+  }
+}

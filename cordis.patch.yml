@@ -1,0 +1,7 @@
+# Inserts the session-manager bundle into the profile layer stack.
+# The Host half registers the archived-session delete route; the Client half
+# is listed through `dsh.client` in package.json and renders the alerts,
+# the archived-session delete entry, and the sound toggle.
+- insert:
+    - id: session-manager
+      name: '@local/session-manager'
