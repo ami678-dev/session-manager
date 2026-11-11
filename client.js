@@ -47,7 +47,6 @@ window.__ModuleLoader__.load({
       'notice.warning': 'Cleanup notice',
       'notice.test': 'Preview alert',
       'notice.testBody': 'Popups and sound are working.',
-      'notice.open': 'Open',
       'notice.dismiss': 'Dismiss',
       'notice.resolved': 'Handled',
       'delete.menu': 'Delete archived session…',
@@ -81,7 +80,7 @@ window.__ModuleLoader__.load({
       'batch.empty': 'There are no archived sessions.',
       'batch.noMatch': 'No archived sessions match the search.',
       'batch.loadFailed': 'Could not load archived sessions. Refresh the page and try again.',
-      'batch.delete': 'Delete selected ({count})',
+      'batch.delete': 'Delete ({count})',
       'batch.deleting': 'Deleting…',
       'batch.done': 'Done',
       'batch.resultDeleted': '{count} deleted',
@@ -93,9 +92,10 @@ window.__ModuleLoader__.load({
       'batch.partialToast': 'Deleted {deleted}, scheduled {scheduled}, skipped or failed {failed}.',
       'batch.reason': '{title}: {reason}',
       'batch.moveToTrash': 'Move the log files to the Recycle Bin (recoverable)',
+      'trash.label': 'Recycle Bin',
       'cleanup.menu': 'Clean up leftover session files…',
       'cleanup.title': 'Clean up leftover files',
-      'cleanup.desc': 'Leftover session directories, stale deletion files and empty directories found under the session store. None of them belongs to an existing session. Confirm to move them to the Recycle Bin.',
+      'cleanup.desc': 'Leftover session directories, stale deletion files and empty directories found under the session store. None of them belongs to an existing session. Select the leftovers to move to the Recycle Bin.',
       'cleanup.loading': 'Scanning the session store…',
       'cleanup.loadFailed': 'Could not scan the session store. Refresh the page and try again.',
       'cleanup.empty': 'No leftover files found.',
@@ -104,7 +104,7 @@ window.__ModuleLoader__.load({
       'cleanup.kind.emptyDir': 'Empty directory',
       'cleanup.openLocation': 'Open location',
       'cleanup.truncated': 'Only the first {count} leftovers are listed. Clean them up and scan again for more.',
-      'cleanup.moveAll': 'Move all to Recycle Bin ({count})',
+      'cleanup.moveAll': 'Move to Recycle Bin ({count})',
       'cleanup.moving': 'Moving to the Recycle Bin…',
       'cleanup.resultMoved': '{count} moved to the Recycle Bin',
       'cleanup.resultFailed': '{count} failed',
@@ -131,7 +131,6 @@ window.__ModuleLoader__.load({
       'notice.warning': '清理提示',
       'notice.test': '示例提醒',
       'notice.testBody': '弹窗与声音工作正常。',
-      'notice.open': '打开',
       'notice.dismiss': '关闭',
       'notice.resolved': '已处理',
       'delete.menu': '删除已归档会话…',
@@ -165,7 +164,7 @@ window.__ModuleLoader__.load({
       'batch.empty': '没有已归档会话。',
       'batch.noMatch': '没有匹配的会话。',
       'batch.loadFailed': '无法加载归档会话，请刷新页面后重试。',
-      'batch.delete': '删除所选（{count}）',
+      'batch.delete': '删除（{count}）',
       'batch.deleting': '正在删除…',
       'batch.done': '完成',
       'batch.resultDeleted': '已删除 {count} 个',
@@ -177,9 +176,10 @@ window.__ModuleLoader__.load({
       'batch.partialToast': '已删除 {deleted} 个，已安排 {scheduled} 个，跳过或失败 {failed} 个。',
       'batch.reason': '{title}：{reason}',
       'batch.moveToTrash': '删除时把日志文件移入回收站（可恢复）',
+      'trash.label': '回收站',
       'cleanup.menu': '清理残留会话文件…',
       'cleanup.title': '清理残留文件',
-      'cleanup.desc': '以下是会话存储中不属于任何现有会话的残留会话目录、残留删除文件与空目录。确认后移入回收站。',
+      'cleanup.desc': '以下是会话存储中不属于任何现有会话的残留会话目录、残留删除文件与空目录。请选择要移入回收站的项目。',
       'cleanup.loading': '正在扫描会话存储…',
       'cleanup.loadFailed': '无法扫描会话存储，请刷新页面后重试。',
       'cleanup.empty': '没有发现残留文件。',
@@ -188,7 +188,7 @@ window.__ModuleLoader__.load({
       'cleanup.kind.emptyDir': '空目录',
       'cleanup.openLocation': '打开位置',
       'cleanup.truncated': '仅列出前 {count} 项，清理后可再次扫描。',
-      'cleanup.moveAll': '全部移入回收站（{count}）',
+      'cleanup.moveAll': '移入回收站（{count}）',
       'cleanup.moving': '正在移入回收站…',
       'cleanup.resultMoved': '已移入回收站 {count} 项',
       'cleanup.resultFailed': '失败 {count} 项',
@@ -226,8 +226,9 @@ window.__ModuleLoader__.load({
 .sm-btn:focus-visible,.sm-icon-btn:focus-visible,.sm-menu-item:focus-visible,.sm-footer-btn:focus-visible{outline:2px solid var(--dsw-alias-brand-primary);outline-offset:1px}
 .sm-footer-btn{appearance:none;border:none;background:transparent;color:var(--dsw-alias-label-secondary);width:28px;height:28px;border-radius:7px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
 .sm-footer-btn:hover{background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary)}
-.sm-menu-item{appearance:none;border:none;background:transparent;color:var(--dsw-alias-state-error-primary);display:flex;align-items:center;gap:8px;width:100%;padding:7px 10px;border-radius:7px;font:inherit;text-align:left;cursor:pointer}
-.sm-menu-item:hover{background:var(--dsw-alias-bg-layer-2)}
+.sm-menu-item{appearance:none;border:none;background:transparent;color:var(--dsw-alias-state-error-primary);display:flex;align-items:center;gap:6px;width:100%;min-height:34px;padding:6px 8px;border-radius:var(--dsw-radius-md);font-family:inherit;font-size:13px;line-height:20px;text-align:left;cursor:pointer}
+@media (hover:hover){.sm-menu-item:hover{background:var(--dsw-alias-interactive-bg-hover-danger)}}
+.sm-menu-item:focus-visible{background:var(--dsw-alias-interactive-bg-hover-danger)}
 .sm-menu-item__label{white-space:nowrap}
 .sm-modal-root{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:max(24px,var(--dsh-frame-overlay-top,24px)) 24px;pointer-events:auto}
 .sm-modal-mask{position:absolute;inset:var(--dsh-frame-chrome-top,0) 0 0;backdrop-filter:var(--dsw-mask-blur)}
@@ -241,8 +242,13 @@ window.__ModuleLoader__.load({
 .sm-modal__close:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover)}
 .sm-modal__close:disabled{opacity:.4;cursor:not-allowed}
 .sm-modal__description{margin:0;padding:0 24px;font-size:14px;line-height:22px;font-weight:400;color:var(--dsw-alias-label-primary);flex:none}
-.sm-modal__body{display:flex;flex-direction:column;min-width:0;min-height:0;margin-top:20px;padding:0 24px;overflow:auto}
+.sm-modal__body{display:flex;flex-direction:column;min-width:0;min-height:0;margin-top:20px;padding:6px 24px 0;overflow:auto}
 .sm-modal__footer{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:0 24px;flex:none}
+.sm-footer-check{display:inline-flex;align-items:center;gap:6px;flex:none;margin-right:auto;font-size:13px;line-height:20px;color:var(--dsw-alias-label-secondary);cursor:pointer;user-select:none}
+.sm-footer-check:hover{color:var(--dsw-alias-label-primary)}
+.sm-footer-check input{flex:0 0 auto;width:16px;height:16px;margin:0;accent-color:var(--dsw-alias-brand-primary);cursor:pointer}
+.sm-footer-check input:disabled{cursor:not-allowed}
+.sm-footer-check:has(input:disabled){cursor:default;opacity:.4}
 .sm-modal .sm-btn{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:4px;border:none;border-radius:var(--dsw-radius-md);cursor:pointer;font-family:inherit;font-size:14px;line-height:22px;color:var(--dsw-alias-label-primary);background:transparent;padding:0 14px}
 .sm-modal .sm-btn--md{height:36px}
 .sm-modal .sm-btn:disabled{cursor:not-allowed;opacity:.4}
@@ -270,8 +276,6 @@ window.__ModuleLoader__.load({
 .sm-batch-row:hover{background:var(--dsw-alias-interactive-bg-hover)}
 .sm-batch-row__title{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--dsw-alias-label-primary)}
 .sm-batch-row__meta{flex:none;font-size:12px;line-height:18px;color:var(--dsw-alias-label-tertiary)}
-.sm-batch-row--static{cursor:default}
-.sm-batch-row--static:hover{background:transparent}
 .sm-batch-empty{padding:26px 0;text-align:center;font-size:13px;line-height:20px;color:var(--dsw-alias-label-tertiary)}
 .sm-batch-results{display:flex;flex-direction:column;gap:10px}
 .sm-batch-summary{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;line-height:22px}
@@ -658,14 +662,6 @@ window.__ModuleLoader__.load({
         notice.detail ? h('div', { className: 'sm-toast__detail', title: notice.detail }, notice.detail) : null,
         notice.resolved ? h('div', { className: 'sm-toast__resolved' }, t('notice.resolved')) : null),
       h('div', { className: 'sm-toast__actions' },
-        notice.sessionId && showOpen ? h('button', {
-          type: 'button',
-          className: 'sm-btn sm-btn--ghost',
-          onClick: (event) => {
-            event.stopPropagation();
-            open();
-          },
-        }, t('notice.open')) : null,
         h('button', {
           type: 'button',
           className: 'sm-icon-btn',
@@ -955,6 +951,17 @@ window.__ModuleLoader__.load({
         closeDisabled: busy,
         description: t('delete.desc', { title }),
         footer: h(React.Fragment, null,
+          h('label', {
+            className: 'sm-footer-check',
+            title: t('delete.filesOption'),
+          },
+          h('input', {
+            type: 'checkbox',
+            checked: request.moveToTrash === true,
+            disabled: busy,
+            onChange: (event) => actions.setMoveToTrash(event.target.checked),
+          }),
+          h('span', null, t('trash.label'))),
           h('button', {
             ref: cancelRef,
             type: 'button',
@@ -975,14 +982,6 @@ window.__ModuleLoader__.load({
           h('li', null, t('delete.keepFiles')),
           h('li', null, t('delete.keepAttachments')),
           h('li', null, t('delete.keepSchedules')))),
-      h('label', { className: 'sm-batch-all' },
-        h('input', {
-          type: 'checkbox',
-          checked: request.moveToTrash === true,
-          disabled: busy,
-          onChange: (event) => actions.setMoveToTrash(event.target.checked),
-        }),
-        h('span', null, t('delete.filesOption'))),
       request.error ? h('div', { className: 'sm-dialog__error', role: 'alert' }, request.error) : null,
       busy ? h('div', { className: 'sm-dialog__status', role: 'status' }, t('delete.pending')) : null);
     }
@@ -1093,15 +1092,6 @@ window.__ModuleLoader__.load({
             }),
             h('span', null, t('batch.selectAll')),
             h('span', { className: 'sm-batch-row__meta' }, rows.length)),
-          // A separate label: the select-all ref above owns `indeterminate`.
-          h('label', { className: 'sm-batch-all' },
-            h('input', {
-              type: 'checkbox',
-              checked: snapshot.moveToTrash === true,
-              disabled: snapshot.deleting === true,
-              onChange: (event) => actions.setMoveToTrash(event.target.checked),
-            }),
-            h('span', null, t('batch.moveToTrash'))),
           snapshot.loading
             ? h('div', { className: 'sm-batch-empty' }, t('batch.loading'))
             : snapshot.ids.length === 0
@@ -1120,6 +1110,17 @@ window.__ModuleLoader__.load({
           snapshot.error ? h('div', { className: 'sm-dialog__error', role: 'alert' }, snapshot.error) : null,
           snapshot.deleting ? h('div', { className: 'sm-dialog__status', role: 'status' }, t('batch.deleting')) : null);
         footer = h(React.Fragment, null,
+          h('label', {
+            className: 'sm-footer-check',
+            title: t('batch.moveToTrash'),
+          },
+          h('input', {
+            type: 'checkbox',
+            checked: snapshot.moveToTrash === true,
+            disabled: snapshot.deleting === true,
+            onChange: (event) => actions.setMoveToTrash(event.target.checked),
+          }),
+          h('span', null, t('trash.label'))),
           h('button', {
             type: 'button',
             className: 'sm-btn sm-btn--outline sm-btn--md',
@@ -1188,6 +1189,11 @@ window.__ModuleLoader__.load({
       const close = () => actions.close();
       useModalFocus(cardRef, cancelRef, busyRef, close);
 
+      const items = Array.isArray(snapshot.items) ? snapshot.items : [];
+      const selected = new Set(Array.isArray(snapshot.selected) ? snapshot.selected : []);
+      const allSelected = items.length > 0 && items.every((item) => selected.has(item.path));
+      const someSelected = selected.size > 0 && !allSelected;
+
       let body;
       let footer;
       if (snapshot.results) {
@@ -1213,19 +1219,39 @@ window.__ModuleLoader__.load({
             ? h('div', { className: 'sm-batch-empty' }, t('cleanup.loading'))
             : snapshot.items.length === 0
               ? h('div', { className: 'sm-batch-empty' }, t('cleanup.empty'))
-              : h('div', { className: 'sm-batch-list' },
-                snapshot.items.map((item) => h('div', {
-                  key: item.path,
-                  className: 'sm-batch-row sm-batch-row--static',
-                },
-                h('span', { className: 'sm-batch-row__meta' }, cleanupKindLabel(item.kind, t)),
-                h('span', { className: 'sm-batch-row__title', title: item.path }, item.path),
-                h('button', {
-                  type: 'button',
-                  className: 'sm-btn sm-btn--ghost',
-                  disabled: snapshot.busy === true,
-                  onClick: () => actions.openLocation(item.path),
-                }, t('cleanup.openLocation'))))),
+              : h(React.Fragment, null,
+                h('label', { className: 'sm-batch-all' },
+                  h('input', {
+                    type: 'checkbox',
+                    checked: allSelected,
+                    ref: (node) => {
+                      if (node) node.indeterminate = someSelected;
+                    },
+                    disabled: snapshot.busy === true,
+                    onChange: () => actions.toggleAll(),
+                  }),
+                  h('span', null, t('batch.selectAll')),
+                  h('span', { className: 'sm-batch-row__meta' }, t('batch.selected', { count: selected.size }))),
+                h('div', { className: 'sm-batch-list' },
+                  items.map((item) => h('label', {
+                    key: item.path,
+                    className: 'sm-batch-row',
+                  },
+                  h('input', {
+                    type: 'checkbox',
+                    checked: selected.has(item.path),
+                    disabled: snapshot.busy === true,
+                    'aria-label': item.path,
+                    onChange: () => actions.toggle(item.path),
+                  }),
+                  h('span', { className: 'sm-batch-row__meta' }, cleanupKindLabel(item.kind, t)),
+                  h('span', { className: 'sm-batch-row__title', title: item.path }, item.path),
+                  h('button', {
+                    type: 'button',
+                    className: 'sm-btn sm-btn--ghost',
+                    disabled: snapshot.busy === true,
+                    onClick: () => actions.openLocation(item.path),
+                  }, t('cleanup.openLocation')))))),
           snapshot.truncated
             ? h('p', { className: 'sm-batch-note' }, t('cleanup.truncated', { count: snapshot.items.length }))
             : null,
@@ -1242,9 +1268,9 @@ window.__ModuleLoader__.load({
           h('button', {
             type: 'button',
             className: 'sm-btn sm-btn--danger sm-btn--md',
-            disabled: snapshot.busy === true || snapshot.loading === true || snapshot.items.length === 0,
+            disabled: snapshot.busy === true || snapshot.loading === true || selected.size === 0,
             onClick: () => actions.moveAll(),
-          }, snapshot.busy ? t('cleanup.moving') : t('cleanup.moveAll', { count: snapshot.items.length })));
+          }, snapshot.busy ? t('cleanup.moving') : t('cleanup.moveAll', { count: selected.size })));
       }
 
       return h(ModalFrame, {
@@ -1792,6 +1818,7 @@ window.__ModuleLoader__.load({
         loading: false,
         error: null,
         items: [],
+        selected: [],
         busy: false,
         results: null,
         truncated: false,
@@ -1815,6 +1842,7 @@ window.__ModuleLoader__.load({
             loading: true,
             error: null,
             items: [],
+            selected: [],
             busy: false,
             results: null,
             truncated: false,
@@ -1841,7 +1869,12 @@ window.__ModuleLoader__.load({
                   && item.path !== ''
                   && cleanupStore.getSnapshot().open)
                 : [];
-              cleanupStore.set({ loading: false, items, truncated: body.truncated === true });
+              cleanupStore.set({
+                loading: false,
+                items,
+                selected: items.map((item) => item.path),
+                truncated: body.truncated === true,
+              });
             } catch {
               cleanupStore.set({ loading: false, error: t('cleanup.loadFailed') });
             }
@@ -1850,6 +1883,25 @@ window.__ModuleLoader__.load({
         close() {
           if (cleanupStore.getSnapshot().busy) return;
           cleanupStore.set({ open: false });
+        },
+        toggle(path) {
+          const snapshot = cleanupStore.getSnapshot();
+          if (snapshot.busy || typeof path !== 'string' || path === '') return;
+          if (!snapshot.items.some((item) => item.path === path)) return;
+          const selected = new Set(snapshot.selected);
+          if (selected.has(path)) selected.delete(path);
+          else selected.add(path);
+          cleanupStore.set({ selected: [...selected] });
+        },
+        toggleAll() {
+          const snapshot = cleanupStore.getSnapshot();
+          if (snapshot.busy) return;
+          const selected = new Set(snapshot.selected);
+          const all = snapshot.items.length > 0
+            && snapshot.items.every((item) => selected.has(item.path));
+          cleanupStore.set({
+            selected: all ? [] : snapshot.items.map((item) => item.path),
+          });
         },
         async openLocation(path) {
           if (cleanupStore.getSnapshot().busy || typeof path !== 'string' || path === '') return;
@@ -1870,8 +1922,12 @@ window.__ModuleLoader__.load({
         },
         async moveAll() {
           const snapshot = cleanupStore.getSnapshot();
-          if (snapshot.busy || snapshot.loading || snapshot.items.length === 0) return;
-          const paths = snapshot.items.map((item) => item.path);
+          if (snapshot.busy || snapshot.loading) return;
+          const selected = new Set(snapshot.selected);
+          const paths = snapshot.items
+            .map((item) => item.path)
+            .filter((path) => selected.has(path));
+          if (paths.length === 0) return;
           cleanupStore.set({ busy: true, error: null });
           let response;
           let body = null;
@@ -1912,7 +1968,7 @@ window.__ModuleLoader__.load({
           const results = Array.isArray(body.results) ? body.results : [];
           const moved = results.filter((item) => item.status === 'moved').length;
           const failed = results.filter((item) => item.status === 'failed').length;
-          cleanupStore.set({ busy: false, items: [], results: { items: results, moved, failed } });
+          cleanupStore.set({ busy: false, items: [], selected: [], results: { items: results, moved, failed } });
           if (failed > 0) {
             pushNotice('warning', null, t('cleanup.partialToast', { moved, failed }), t('cleanup.title'));
           } else if (moved > 0) {

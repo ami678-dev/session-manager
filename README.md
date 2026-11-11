@@ -18,9 +18,10 @@ A local bundle for the Harness Web GUI with four capabilities:
 4. **Leftover-file cleanup** — a broom button at the sidebar foot scans the
    sessions root for provable leftovers: session directories that no workspace,
    archive, pin, pending deletion, or known subagent refers to, plus
-   `.sm-delete-…` tombstones and empty directories. Each row names its kind and
-   path; **打开位置 / Open location** reveals it in Explorer, and **Move all to
-   the Recycle Bin** removes the whole list at once.
+   `.sm-delete-…` tombstones and empty directories. Each row has a checkbox
+   (everything is selected initially) and names its kind and path;
+   **打开位置 / Open location** reveals it in Explorer, and **Move to Recycle
+   Bin** removes the selected rows.
 
 ## What is deleted, what is kept
 
@@ -43,10 +44,11 @@ Kept:
 - scheduled tasks and their history
 - jobs, deliverables, and everything outside the session log directory
 
-Both delete dialogs offer **Also move the related log files to the Recycle Bin
-(recoverable)**. When ticked, each staged log is moved to the Windows Recycle
-Bin instead of being unlinked; the leftover-file cleanup always tries the
-Recycle Bin first. If the Recycle Bin is unavailable, the operation degrades to
+Both delete dialogs put a compact **Recycle Bin** checkbox at the left end of
+the footer, well away from the session list and the Cancel/Delete buttons; its
+tooltip carries the full explanation. When
+ticked, each staged log is moved to the Windows Recycle Bin instead of being
+unlinked; the leftover-file cleanup always tries the Recycle Bin first. If the Recycle Bin is unavailable, the operation degrades to
 a permanent delete and reports that in the warnings. Moving to the Recycle Bin
 uses `powershell.exe` with `Microsoft.VisualBasic.FileIO.FileSystem` (Windows
 only); the Host plugin never imports Electron.
@@ -63,7 +65,7 @@ the session has been opened. Archiving it does not release it, and a page
 refresh does not help. When an idle-but-live session is deleted, the Host
 writes the id to `.session-manager-pending-delete.json` beside the sessions
 root and answers `202 restart-required`. The Client shows a sticky “deletion
-scheduled” popup (deliberately without an **Open** action). On the next start,
+scheduled” popup. On the next start,
 the Host replays the queue before anything else and removes the log while the
 session is still not live. A session with a running turn is refused instead
 (`409 session-active`): stop the turn first.
@@ -94,27 +96,26 @@ Rollback never deletes session data.
 
 | Action | Result |
 | --- | --- |
-| Approval / question / plan review on any session | Sticky popup with an **Open** button |
+| Approval / question / plan review on any session | Sticky popup |
 | Session running → idle (while you are not looking at it) | Popup + sound, auto-dismisses; subagent completions stay quiet |
 | Session error event | Error popup + sound |
-| Click anywhere on a popup with an **Open** button | Same as clicking **Open**; Enter/Space works when the card is focused |
+| Click anywhere on a popup with a session | Opens that session and dismisses the popup; Enter/Space works when the card is focused |
 | Bell at the sidebar foot | Toggle sound; Shift+click previews a test alert |
 | Trash at the sidebar foot | Open the batch cleanup dialog for archived sessions |
 | Broom at the sidebar foot | Scan leftover session files; open a location or move all to the Recycle Bin |
 | Archived session → “…” → *Delete archived session…* | Confirmation (with the Recycle Bin option), then delete or schedule |
 | Archived session with subagent history | Descendant subagent logs are deleted with it |
-| **Open** in a popup | Opens the session and dismisses that popup |
 
 Batch cleanup: search by title or id, select rows (or all visible rows), then
-**Delete selected**. The result view reports deleted, scheduled, skipped, and
-failed sessions. Ticking **Move the log files to the Recycle Bin** applies to
-the whole batch.
+**Delete (n)**. The result view reports deleted, scheduled, skipped, and failed
+sessions. Ticking the footer **Recycle Bin** box applies to the whole batch.
 
 Leftover cleanup: the list is a scan of the sessions root; it never includes a
 registered, archived, pinned, pending-deletion, or known-subagent session. Each
-row keeps its kind label (session directory / tombstone / empty directory) and
-full path, and **打开位置 / Open location** reveals it in Explorer without
-changing anything. A scheduled session is still listed as archived until the next
+row has a checkbox (select-all is provided and everything starts selected),
+keeps its kind label (session directory / tombstone / empty directory) and full
+path, and **打开位置 / Open location** reveals it in Explorer without changing
+anything. A scheduled session is still listed as archived until the next
 DSH start; the sticky popup names the restart requirement.
 
 Preferences (`muted`) are stored in `localStorage['dsh.session-manager.v1']`.

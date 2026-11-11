@@ -124,18 +124,20 @@ What the tests cover:
   - a missing host route (405 from the SPA fallback) maps to the localized
     “delete service unavailable” message
   - a `202 restart-required` response closes the dialog and pushes a sticky
-    “deletion scheduled” notice with no **Open** action
+    “deletion scheduled” notice
   - a successful delete reports the removed subagent count in the toast
   - batch load, selection, filter, and mixed delete results; one summary toast
     (sticky when anything is scheduled)
-  - `noticeOpenable`: a notice with a session id is openable when the Open
-    action exists; a missing workspace service or session id disables the card
+  - `noticeOpenable`: a notice with a session id is clickable when the
+    session-open action is available; a missing workspace service or session id
+    disables the card
   - the single-delete body stays exactly `{sessionId, confirm}` unless the
     checkbox is ticked, which adds only `moveToTrash: true`; batch bodies follow
     the same rule and the toggle survives reopening the dialog
-  - cleanup scan, open-location, and move-all request shapes; a missing route
-    maps to the localized unavailable message; mixed results push the summary
-    toast; the debug seam publishes a notice with a session id
+  - cleanup scan, default selection, toggle/toggle-all, open-location, and
+    move-selected request shapes; a missing route maps to the localized
+    unavailable message; mixed results push the summary toast; the debug seam
+    publishes a notice with a session id
   - `apply` installs all six slot entries and never throws with a normal fake
     context or with an empty context
 
@@ -194,8 +196,8 @@ Alerts:
 - [ ] Open the console; no `slot entry crashed` or `[session-manager] … failed`
       entries after refresh.
 - [ ] Approval: trigger a tool that needs approval. A sticky “需要审批” popup
-      appears, with the tool name/reason; the sound plays; “打开” focuses that
-      session.
+      appears, with the tool name/reason; the sound plays; clicking the popup
+      focuses that session.
 - [ ] Question/plan review: ask the agent a question (or enter plan mode and
       finish a plan). A sticky popup appears.
 - [ ] Completion: start a turn in a session and switch the window/app focus to
@@ -204,10 +206,10 @@ Alerts:
       completion popup is intentionally suppressed.
 - [ ] Error: a failed turn produces an error popup, and no “completed” popup
       follows it.
-- [ ] Popup card click: click the body of a popup that has an “打开” button
-      (not the button itself). That session opens and the popup dismisses. The
-      “×” button closes the popup without opening anything. With the card
-      focused, Enter and Space behave like a click.
+- [ ] Popup card click: click anywhere on a popup that carries a session (the
+      popup no longer has an “打开” button). That session opens and the popup
+      dismisses. The “×” button closes the popup without opening anything.
+      With the card focused, Enter and Space behave like a click.
 - [ ] Bell button: click mutes (no sound, popups remain); click again enables.
       **Shift+click** shows an “示例提醒” popup and a sound (useful without
       waiting for a real approval).
@@ -217,11 +219,14 @@ Archived-session delete:
 
 - [ ] A non-archived session's “…” menu has **no** delete row.
 - [ ] Archive a disposable session, then open its “…” menu: the
-      “删除已归档会话…” row is present and in danger colour.
+      “删除已归档会话…” row is present, matches the Host context-menu row
+      metrics (13px text, 34px row), and keeps the danger colour.
 - [ ] Click it: the menu closes and the confirmation dialog opens with the
       session title, the “cannot be undone” sentence (which now names subagent
-      sessions too), the keep list, and the “同时删除相关文件（移入回收站，可恢复）”
-      checkbox (off by default).
+      sessions too), the keep list, and a compact “回收站” checkbox at the left
+      end of the footer (off by default; its tooltip explains that logs move to
+      the Recycle Bin and can be recovered). Cancel and “永久删除” stay
+      together on the right.
 - [ ] With the checkbox off, deletion is permanent (previous behaviour). With
       it on, the same delete appears in the Windows Recycle Bin, and a warning
       is reported if the Recycle Bin is unavailable (the logs are then removed
@@ -229,8 +234,8 @@ Archived-session delete:
 - [ ] Escape / backdrop / Cancel closes the dialog without a request.
 - [ ] While the session is idle but still held by the running DSH process (or a
       subagent it spawned is), confirming returns 202: the dialog closes, a
-      sticky “已安排删除” popup appears **without** an Open action,
-      and the row stays archived until the restart.
+      sticky “已安排删除” popup appears, and the row stays archived until the
+      restart.
 - [ ] While a turn is actually running, confirming is refused with a readable
       message (HTTP 409 `session-active`); the dialog stays open.
 - [ ] Restart DSH: the scheduled log directory is gone and
@@ -258,7 +263,9 @@ Batch cleanup:
       visible (filtered) rows and shows an indeterminate state for a partial
       selection.
 - [ ] With nothing selected, the delete button is disabled and reads
-      “删除所选（0）”.
+      “删除（0）”; its label only counts the selection.
+- [ ] The search field's top border and focus ring are fully visible, with a
+      clear gap below the description text (the body provides top clearance).
 - [ ] A mixed batch (one deletable, one held by the process) reports
       “已删除 1 个 / 1 个将在下次启动 DSH 时删除”, pushes one sticky scheduled
       popup, and keeps the dialog open on the result summary.
@@ -275,12 +282,16 @@ Leftover cleanup:
       and has a localized tooltip.
 - [ ] Opening it scans the sessions root. Registered, archived, pinned,
       pending-deletion, and known-subagent sessions are never listed.
-- [ ] Each row shows its kind (session directory / tombstone / empty
-      directory) and full path; when more than 200 items exist, a truncation
+- [ ] Each row shows a checkbox and its kind (session directory / tombstone /
+      empty directory) and full path. Everything is selected on open; the
+      select-all row reads “全选 / 已选 N 个” and shows an indeterminate state
+      for a partial selection. When more than 200 items exist, a truncation
       note names the listed count.
+- [ ] Unticking a row excludes it from the move; with nothing selected the
+      footer button reads “移入回收站（0）” and is disabled.
 - [ ] “打开位置” reveals that exact path in Explorer; it changes nothing on
       disk. Repeat for a file and a directory.
-- [ ] “全部移入回收站（N）” disables while the request is in flight, then the
+- [ ] “移入回收站（N）” disables while the request is in flight, then the
       result view reports moved and failed counts. Reopening the dialog shows
       the empty state (or only items that were refused).
 - [ ] With no leftovers, the dialog shows “没有发现残留文件。” and the move
@@ -290,8 +301,10 @@ Leftover cleanup:
 
 Batch cleanup (Recycle Bin option):
 
-- [ ] The batch dialog has its own “删除时把日志文件移入回收站（可恢复）”
-      checkbox after select-all; select-all's indeterminate state still works.
+- [ ] The batch dialog has its own compact “回收站” checkbox at the left end
+      of the footer, separated from the Cancel / “删除（N）” buttons on the
+      right; its tooltip carries the full explanation. Select-all's
+      indeterminate state still works.
 - [ ] Ticking it and deleting a disposable batch moves each log to the Recycle
       Bin; the result summary still reports deleted/scheduled per session.
 

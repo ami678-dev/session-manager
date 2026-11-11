@@ -252,7 +252,7 @@ test('apply installs the six slot entries and never throws', () => {
   assert.ok(remoteEvents.includes('api-session/error'));
 });
 
-test('noticeOpenable mirrors the Open button condition', () => {
+test('noticeOpenable mirrors whether the toast card can open its session', () => {
   const mod = loaded.factory(requireStub);
   const { noticeOpenable } = mod.__test;
   const withId = { kind: 'completed', sessionId: ID };
@@ -686,7 +686,7 @@ test('the batch delete request carries moveToTrash and the toggle survives reope
   assert.equal(batch.view.getSnapshot().moveToTrash, true, 'the choice is kept across opens');
 });
 
-test('the cleanup dialog scans, opens a location and moves everything to the bin', async () => {
+test('the cleanup dialog scans, tracks selection and moves the selection to the bin', async () => {
   const mod = loaded.factory(requireStub);
   const { ctx, registrations } = createBehaviorContext({});
   mod.apply(ctx);
@@ -734,11 +734,20 @@ test('the cleanup dialog scans, opens a location and moves everything to the bin
     const scanned = cleanup.view.getSnapshot();
     assert.equal(scanned.loading, false);
     assert.deepEqual(scanned.items.map((item) => item.path), [orphan, tombstone]);
+    assert.deepEqual(scanned.selected, [orphan, tombstone], 'everything is selected by default');
     assert.equal(calls[0].url, '/session-manager/api/cleanup');
 
     await cleanup.actions.openLocation(orphan);
     assert.equal(calls[1].url, '/session-manager/api/open-path');
     assert.deepEqual(JSON.parse(calls[1].options.body), { path: orphan });
+
+    cleanup.actions.toggle(orphan);
+    assert.deepEqual(cleanup.view.getSnapshot().selected, [tombstone]);
+    cleanup.actions.toggle(orphan);
+    cleanup.actions.toggleAll();
+    assert.deepEqual(cleanup.view.getSnapshot().selected, [], 'select-all clears a full selection');
+    cleanup.actions.toggleAll();
+    assert.deepEqual(cleanup.view.getSnapshot().selected, [orphan, tombstone]);
 
     await cleanup.actions.moveAll();
   } finally {
@@ -755,6 +764,7 @@ test('the cleanup dialog scans, opens a location and moves everything to the bin
     failed: 0,
   });
   assert.deepEqual(after.items, [], 'the list is cleared after a successful move');
+  assert.deepEqual(after.selected, [], 'the selection is cleared after a successful move');
   const notice = toasts.view.getSnapshot().toasts.at(-1);
   assert.equal(notice.kind, 'deleted');
   assert.equal(notice.detail, 'Moved 2');
